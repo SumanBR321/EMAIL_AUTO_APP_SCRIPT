@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Outreach Portal</title>
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       THEME.MD DESIGN SYSTEM TOKENS
+       ========================================================================== */
+    :root {
+      /* Core Palette */
+      --color-primary: #E2653B;
+      --color-primary-hover: #cf562e;
+      --color-primary-soft: #F0C0B8;
+      --color-primary-tint: rgba(226, 101, 59, 0.12);
+
+      --color-bg-canvas: #F8F8F7;
+      --color-bg-surface: #FFFFFF;
+      --color-surface-dark: #181818;
+      --color-surface-dark-elevated: #282828;
+
+      --color-border: #E4E4E4;
+      --color-border-dark: #333333;
+
+      --color-text-primary: #181818;
+      --color-text-secondary: #282828;
+      --color-text-muted: #878687;
+      --color-text-inverse: #FFFFFF;
+      --color-text-inverse-muted: #A8A7A8;
+
+      /* Semantic Status */
+      --status-sent-bg: rgba(24, 24, 24, 0.08);
+      --status-sent-text: #181818;
+      --status-active-bg: rgba(226, 101, 59, 0.14);
+      --status-active-text: #C94D24;
+      --status-suppressed-bg: #F0C0B8;
+      --status-suppressed-text: #181818;
+      --status-muted-bg: #E4E4E4;
+      --status-muted-text: #282828;
+
+      /* Geometry & Radii */
+      --radius-card-lg: 24px;
+      --radius-card-md: 20px;
+      --radius-inner: 14px;
+      --radius-input: 14px;
+      --radius-pill: 9999px;
+
+      /* Elevation */
+      --shadow-card: 0 4px 24px rgba(24, 24, 24, 0.035);
+      --shadow-floating: 0 8px 30px rgba(24, 24, 24, 0.06);
+
+      /* Typography */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-display: 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color-bg-canvas);
+      color: var(--color-text-primary);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Layout Container */
+    .app-header {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 32px 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--color-surface-dark);
+      border-radius: var(--radius-inner);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+    }
+
+    .brand-text h1 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+    }
+
+    .brand-text p {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Centered Floating Nav Pill */
+    .nav-pill-container {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      padding: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      box-shadow: var(--shadow-floating);
+    }
+
+    .nav-pill-btn {
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 8px 18px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .nav-pill-btn:hover {
+      color: var(--color-text-primary);
+    }
+
+    .nav-pill-btn.active {
+      background: var(--color-surface-dark);
+      color: var(--color-text-inverse);
+    }
+
+    /* Right Header User Controls */
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .quota-pill {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    .quota-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-primary);
+    }
+
+    .quota-dot.warning {
+      background: #F59E0B;
+    }
+
+    .quota-dot.danger {
+      background: #EF4444;
+    }
+
+    .user-profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      padding: 4px 12px 4px 6px;
+    }
+
+    .avatar-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #EFEFEF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--color-text-primary);
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+    }
+
+    .admin-pill {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      background: var(--color-primary-tint);
+      color: var(--color-primary);
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* App Main Canvas */
+    .app-main {
+      flex: 1;
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 12px 32px 40px 32px;
+    }
+
+    /* Page Intro */
+    .page-intro {
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: var(--color-text-muted);
+      margin-top: 4px;
+    }
+
+    /* Bento Grid Framework */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--color-bg-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card-lg);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-card);
+      position: relative;
+    }
+
+    .card-dark {
+      background: var(--color-surface-dark);
+      border: 1px solid var(--color-border-dark);
+      color: var(--color-text-inverse);
+    }
+
+    .card-accent {
+      background: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      color: var(--color-text-inverse);
+    }
+
+    /* Metric Cards */
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-top: 12px;
+    }
+
+    .metric-label {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    .metric-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      background: #F4F4F3;
+      color: var(--color-text-secondary);
+    }
+
+    .card-accent .metric-label,
+    .card-dark .metric-label {
+      color: var(--color-text-inverse-muted);
+    }
+
+    .card-accent .metric-badge {
+      background: rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+    }
+
+    /* Forms & Inputs */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      margin-bottom: 8px;
+    }
+
+    .input-text, .textarea-input {
+      width: 100%;
+      background: #FAFAFA;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-input);
+      padding: 12px 16px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--color-text-primary);
+      outline: none;
+      transition: all 0.18s ease;
+    }
+
+    .input-text:focus, .textarea-input:focus {
+      background: #FFFFFF;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(226, 101, 59, 0.12);
+    }
+
+    .textarea-input {
+      resize: vertical;
+      min-height: 140px;
+      line-height: 1.6;
+    }
+
+    /* Tag Pills for Merge Variable Insertion */
+    .token-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .token-pill {
+      background: var(--color-bg-canvas);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .token-pill:hover {
+      background: #EFEFEF;
+      border-color: #D4D4D4;
+      color: var(--color-text-primary);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 22px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--color-primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--color-bg-surface);
+      border-color: var(--color-border);
+      color: var(--color-text-primary);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #F4F4F3;
+    }
+
+    .btn-dark {
+      background: var(--color-surface-dark);
+      color: #FFFFFF;
+    }
+
+    .btn-dark:hover:not(:disabled) {
+      background: var(--color-surface-dark-elevated);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* Drag & Drop File Zone */
+    .dropzone {
+      border: 2px dashed var(--color-border);
+      border-radius: var(--radius-inner);
+      padding: 32px 24px;
+      text-align: center;
+      background: #FAFAFA;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--color-primary);
+      background: rgba(226, 101, 59, 0.04);
+    }
+
+    .dropzone-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+      margin-bottom: 12px;
+    }
+
+    /* Progress Indicators */
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: var(--color-border);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin: 14px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--color-primary);
+      border-radius: var(--radius-pill);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Live Feed / Table Rows */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .data-table th {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-text-muted);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .data-table td {
+      font-size: 13px;
+      padding: 14px 16px;
+      border-bottom: 1px solid #F0F0EF;
+      color: var(--color-text-primary);
+    }
+
+    .data-table tr:hover td {
+      background: #FAFAFA;
+    }
+
+    /* Status Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .badge-sent {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+
+    .badge-pending {
+      background: #FFF8E1;
+      color: #F57F17;
+    }
+
+    .badge-failed {
+      background: #FFEBEE;
+      color: #C62828;
+    }
+
+    .badge-suppressed {
+      background: var(--color-primary-soft);
+      color: #181818;
+    }
+
+    .badge-active {
+      background: rgba(226, 101, 59, 0.12);
+      color: var(--color-primary);
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(226, 101, 59, 0.2);
+      border-top-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Screen Views State */
+    .view-screen {
+      display: none;
+    }
+
+    .view-screen.active {
+      display: block;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(24, 24, 24, 0.45);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 24px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-card-lg);
+      width: 100%;
+      max-width: 540px;
+      padding: 32px;
+      box-shadow: var(--shadow-floating);
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 1050;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      background: var(--color-surface-dark);
+      color: #FFFFFF;
+      border-radius: var(--radius-pill);
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: var(--shadow-floating);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideUp 0.25s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP NAVIGATION BAR
+       ======================================================================== -->
+  <header class="app-header">
+    <div class="brand-section">
+      <div class="brand-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1 id="headerAgencyName">Apex Outreach</h1>
+        <p>Vendor Email Portal</p>
+      </div>
+    </div>
+
+    <!-- Centered Floating Pill Navigation -->
+    <nav class="nav-pill-container" id="mainNavPill" style="display: none;">
+      <button class="nav-pill-btn active" data-view="compose">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+        Compose
+      </button>
+      <button class="nav-pill-btn" data-view="preview" id="navPreviewBtn" disabled>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+        Preview
+      </button>
+      <button class="nav-pill-btn" data-view="dispatch" id="navDispatchBtn" disabled>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        Dispatch
+      </button>
+      <button class="nav-pill-btn" data-view="suppression" id="navSuppressionBtn" style="display: none;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+        Suppression
+      </button>
+      <button class="nav-pill-btn" data-view="activity" id="navActivityBtn" style="display: none;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        Activity Audit
+      </button>
+    </nav>
+
+    <!-- User & Quota Badges -->
+    <div class="user-section" id="userHeaderSection" style="display: none;">
+      <div class="quota-pill" title="Daily quota remaining from your personal Gmail account">
+        <div class="quota-dot" id="quotaDot"></div>
+        <span><strong id="quotaNumber" class="tabular-nums">--</strong> / 100 today</span>
+      </div>
+      <div class="user-profile-badge">
+        <div class="avatar-circle" id="userAvatar">U</div>
+        <span class="user-name" id="userNameLabel">Staff Member</span>
+        <span class="admin-pill" id="adminBadge" style="display: none;">Admin</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       APPLICATION MAIN CONTENT AREA
+       ======================================================================== -->
+  <main class="app-main">
+
+    <!-- SCREEN 0: LOADING & AUTH VERIFICATION -->
+    <section id="view-loading" class="view-screen active">
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:55vh; text-align:center;">
+        <div class="spinner" style="width:36px; height:36px; margin-bottom:16px;"></div>
+        <h2 style="font-family: var(--font-display); font-size:20px; font-weight:500;">Authenticating Google Account...</h2>
+        <p style="color:var(--color-text-muted); font-size:14px; margin-top:6px;">Verifying staff permissions against agency allowlist.</p>
+      </div>
+    </section>
+
+    <!-- SCREEN 0-ERROR: ACCESS DENIED -->
+    <section id="view-denied" class="view-screen">
+      <div style="max-width:500px; margin:60px auto; text-align:center;" class="card">
+        <div style="width:56px; height:56px; border-radius:50%; background:#FFEBEE; color:#C62828; display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        </div>
+        <h2 style="font-family: var(--font-display); font-size:22px; margin-bottom:10px;">Access Restricted</h2>
+        <p style="color:var(--color-text-muted); margin-bottom:20px;" id="deniedErrorMessage">Your Google account is not on the agency staff whitelist.</p>
+        <p style="font-size:12px; color:#A8A7A8;">If you believe this is in error, please contact your administrator to add your email to the staff tab.</p>
+      </div>
+    </section>
+
+    <!-- SCREEN 1: COMPOSE & IMPORT VIEW -->
+    <section id="view-compose" class="view-screen">
+      <div class="page-intro">
+        <h2 class="page-title" id="greetingTitle">Good day</h2>
+        <p class="page-subtitle">Draft your vendor message and import contacts to begin.</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Left: Campaign Composition Form (8 cols) -->
+        <div class="card" style="grid-column: span 7;">
+          <div class="form-group">
+            <label class="form-label">Campaign Title</label>
+            <input type="text" id="campaignName" class="input-text" placeholder="e.g., Q4 Vendor Partnership Review" value="Vendor Outreach">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email Subject</label>
+            <input type="text" id="emailSubject" class="input-text" placeholder="Notice regarding {{company}} partnership" value="Partnership update with {{company}}">
+            <div class="token-pills-row">
+              <span style="font-size:11px; color:var(--color-text-muted);">Insert tag:</span>
+              <button type="button" class="token-pill" onclick="insertToken('emailSubject', '{{name}}')">{{name}}</button>
+              <button type="button" class="token-pill" onclick="insertToken('emailSubject', '{{company}}')">{{company}}</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email Body Template</label>
+            <textarea id="emailBody" class="textarea-input" placeholder="Hello {{name}},&#10;&#10;We are reaching out to confirm..."></textarea>
+            <div class="token-pills-row">
+              <span style="font-size:11px; color:var(--color-text-muted);">Insert tag:</span>
+              <button type="button" class="token-pill" onclick="insertToken('emailBody', '{{name}}')">{{name}}</button>
+              <button type="button" class="token-pill" onclick="insertToken('emailBody', '{{company}}')">{{company}}</button>
+              <span style="margin-left:auto; font-size:11px; color:#A8A7A8;">Compliance footer & unsub link added automatically</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Contact Import & CSV Dropzone (5 cols) -->
+        <div class="card" style="grid-column: span 5; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <label class="form-label">Import Vendor Contacts</label>
+            <p style="font-size:12px; color:var(--color-text-muted); margin-bottom:16px;">
+              Upload a CSV file or paste contacts below. Accepted columns: <code>email</code>, <code>name</code>, <code>company</code>.
+            </p>
+
+            <div class="dropzone" id="csvDropzone" onclick="document.getElementById('csvFileInput').click();">
+              <div class="dropzone-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              </div>
+              <p style="font-weight:500; font-size:13px; color:var(--color-text-primary);">Click to upload CSV or drag and drop</p>
+              <p style="font-size:11px; color:var(--color-text-muted); margin-top:4px;">CSV files up to 5,000 rows</p>
+              <input type="file" id="csvFileInput" accept=".csv" style="display:none;" onchange="handleFileSelect(event)">
+            </div>
+
+            <div style="margin-top:16px;">
+              <label class="form-label" style="font-size:12px;">Or paste raw list</label>
+              <textarea id="rawContactsPaste" class="textarea-input" style="min-height:90px; font-size:12px; font-family:monospace;" placeholder="alice@acme.com, Alice, Acme Corp&#10;bob@beta.com, Bob, Beta Tech" oninput="updateParsedCount()"></textarea>
+            </div>
+          </div>
+
+          <div style="padding-top:20px; border-top:1px solid var(--color-border); display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <span style="font-size:12px; color:var(--color-text-muted);">Parsed count:</span>
+              <strong id="parsedContactsBadge" class="tabular-nums" style="margin-left:4px; font-size:14px;">0</strong>
+            </div>
+            <button type="button" class="btn btn-primary" id="btnPreviewBatch" onclick="runBatchPreview()" disabled>
+              Validate & Preview &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: BATCH CLEANING PREVIEW VIEW -->
+    <section id="view-preview" class="view-screen">
+      <div class="page-intro" style="display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <h2 class="page-title">Validation & Cleaning Preview</h2>
+          <p class="page-subtitle">Review filtered recipients before beginning transmission.</p>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-secondary" onclick="switchView('compose')">&larr; Back to Edit</button>
+          <button class="btn btn-primary" id="btnStartDispatch" onclick="confirmAndStartDispatch()">
+            Start Sequential Dispatch &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Bento Cards: Preview Counts -->
+      <div class="bento-grid" style="margin-bottom:24px;">
+        <div class="card" style="grid-column: span 3;">
+          <div class="metric-label">Total Imported</div>
+          <div class="metric-value tabular-nums" id="prevTotalCount">0</div>
+          <p style="font-size:11px; color:var(--color-text-muted); margin-top:8px;">Unique addresses in batch</p>
+        </div>
+
+        <div class="card" style="grid-column: span 3;">
+          <div class="metric-label">Valid Sendable</div>
+          <div class="metric-value tabular-nums" id="prevSendableCount" style="color:var(--color-primary);">0</div>
+          <p style="font-size:11px; color:var(--color-text-muted); margin-top:8px;">Passed all suppression & window filters</p>
+        </div>
+
+        <div class="card card-accent" style="grid-column: span 3;">
+          <div class="metric-label">Suppressed / Opt-Outs</div>
+          <div class="metric-value tabular-nums" id="prevSuppressedCount">0</div>
+          <p style="font-size:11px; opacity:0.85; margin-top:8px;">Blocked by do-not-email list</p>
+        </div>
+
+        <div class="card" style="grid-column: span 3;">
+          <div class="metric-label">Contacted in 30 Days</div>
+          <div class="metric-value tabular-nums" id="prevRecentCount">0</div>
+          <p style="font-size:11px; color:var(--color-text-muted); margin-top:8px;">Blocked by colleague cooldown window</p>
+        </div>
+      </div>
+
+      <!-- Recipient Filter Preview Table -->
+      <div class="card">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+          <h3 style="font-size:16px; font-weight:600;">Queue Verification</h3>
+          <span style="font-size:12px; color:var(--color-text-muted);" id="queueSummaryText">Ready to send</span>
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Recipient Email</th>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="previewTableBody">
+              <tr><td colspan="4" style="text-align:center; color:var(--color-text-muted);">No contacts previewed yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: SEQUENTIAL DISPATCH VIEW -->
+    <section id="view-dispatch" class="view-screen">
+      <div class="page-intro">
+        <h2 class="page-title">Live Dispatch Feed</h2>
+        <p class="page-subtitle">Sending emails sequentially from your personal Gmail quota with two-phase reservations.</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Left: Dispatch Controls & Live Activity Log (8 cols) -->
+        <div class="card" style="grid-column: span 8;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <span class="badge badge-active" id="dispatchStatusBadge">In Progress</span>
+              <h3 style="font-size:20px; font-weight:600; margin-top:6px;" id="dispatchCampaignTitle">Campaign Outreach</h3>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn btn-secondary" id="btnPauseResume" onclick="togglePauseResume()">Pause</button>
+              <button class="btn btn-secondary" id="btnCancelDispatch" onclick="abortDispatch()">Stop</button>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div style="margin-top:24px;">
+            <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:500;">
+              <span>Campaign Progress</span>
+              <span id="dispatchProgressPercent" class="tabular-nums">0%</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="dispatchProgressBar"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--color-text-muted);">
+              <span>Dispatched: <strong id="dispatchSentCount" class="tabular-nums" style="color:var(--color-text-primary);">0</strong></span>
+              <span>Failed: <strong id="dispatchFailedCount" class="tabular-nums" style="color:#C62828;">0</strong></span>
+              <span>Remaining in Queue: <strong id="dispatchRemainingQueue" class="tabular-nums" style="color:var(--color-text-primary);">0</strong></span>
+            </div>
+          </div>
+
+          <!-- Real-Time Activity Log Feed -->
+          <div style="margin-top:28px;">
+            <h4 style="font-size:14px; font-weight:600; margin-bottom:12px;">Real-Time Dispatch Log</h4>
+            <div style="max-height:300px; overflow-y:auto; border:1px solid #F0F0EF; border-radius:var(--radius-inner);">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Recipient</th>
+                    <th>Status</th>
+                    <th>Result / Error</th>
+                  </tr>
+                </thead>
+                <tbody id="dispatchFeedBody">
+                  <tr><td colspan="4" style="text-align:center; color:var(--color-text-muted);">Waiting to commence dispatch...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Daily Quota & Throttling Card (4 cols) -->
+        <div class="card card-dark" style="grid-column: span 4; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="metric-label">Personal Gmail Daily Quota</div>
+            <div class="metric-value tabular-nums" id="cardQuotaRemaining" style="font-size:42px;">100</div>
+            <p style="font-size:12px; color:#A8A7A8; margin-top:8px;">
+              Consumer Gmail accounts are strictly capped at 100 emails/day. Quota resets in 24 hours.
+            </p>
+
+            <div style="margin-top:28px; background:var(--color-surface-dark-elevated); padding:16px; border-radius:var(--radius-inner);">
+              <div style="font-size:12px; color:#A8A7A8; margin-bottom:6px;">Safety Throttle</div>
+              <div style="font-size:14px; font-weight:500;">1 send / ~1.5 seconds</div>
+              <p style="font-size:11px; color:#878687; margin-top:4px;">Paced automatically to avoid Google Apps Script execution rate triggers.</p>
+            </div>
+          </div>
+
+          <div style="margin-top:24px; padding-top:16px; border-top:1px solid #333333;">
+            <p style="font-size:11px; color:#878687;">
+              Two-Phase Commit Active: Every reservation locks recipient before dispatch and logs completion outcome to private sheet.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 4: SUPPRESSION MANAGEMENT (ADMIN ONLY) -->
+    <section id="view-suppression" class="view-screen">
+      <div class="page-intro" style="display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <h2 class="page-title">Suppression Registry</h2>
+          <p class="page-subtitle">View and lift permanent email suppressions with required audit justifications.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openLiftModal()">Lift a Suppression</button>
+      </div>
+
+      <div class="card">
+        <div style="margin-bottom:16px; display:flex; gap:12px;">
+          <input type="text" id="suppressionSearchInput" class="input-text" style="max-width:360px;" placeholder="Search suppressed email address..." oninput="filterSuppressionTable()">
+        </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Email Address</th>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Source</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="suppressionTableBody">
+              <tr><td colspan="5" style="text-align:center; color:var(--color-text-muted);">Loading suppression records...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 5: ACTIVITY AUDIT (ADMIN ONLY) -->
+    <section id="view-activity" class="view-screen">
+      <div class="page-intro" style="display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <h2 class="page-title">Global Activity Audit Ledger</h2>
+          <p class="page-subtitle">Immutable log of all user operations, email dispatches, and compliance actions.</p>
+        </div>
+        <button class="btn btn-secondary" onclick="loadGlobalActivityLog()">Refresh Logs</button>
+      </div>
+
+      <div class="card">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp (UTC)</th>
+                <th>Actor</th>
+                <th>Role</th>
+                <th>Category</th>
+                <th>Action</th>
+                <th>Target</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <tr><td colspan="7" style="text-align:center; color:var(--color-text-muted);">Loading activity audit log...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       MODAL: LIFT SUPPRESSION JUSTIFICATION
+       ======================================================================== -->
+  <div class="modal-backdrop" id="liftModal">
+    <div class="modal-card">
+      <h3 style="font-family:var(--font-display); font-size:20px; font-weight:600; margin-bottom:8px;">Lift Email Suppression</h3>
+      <p style="font-size:13px; color:var(--color-text-muted); margin-bottom:20px;">
+        Re-enabling outreach to an unsubscribed or bounced contact requires a written audit justification.
+      </p>
+
+      <div class="form-group">
+        <label class="form-label">Vendor Email Address</label>
+        <input type="email" id="liftTargetEmail" class="input-text" placeholder="vendor@partner.com">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Mandatory Justification (min 10 characters)</label>
+        <textarea id="liftReason" class="textarea-input" style="min-height:90px;" placeholder="e.g., Signed partner opt-in renewal received via signed agreement on 2026-11-20"></textarea>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:24px;">
+        <button class="btn btn-secondary" onclick="closeLiftModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitLiftSuppression()">Confirm & Lift</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ========================================================================
+       CLIENT-SIDE JAVASCRIPT ENGINE
+       ======================================================================== -->
+  <script>
+    // Global Application State
+    var state = {
+      staff: null,
+      campaign: {
+        id: "",
+        name: "",
+        subject: "",
+        body: "",
+        contacts: [],
+        preview: null,
+        queue: [],
+        currentIndex: 0,
+        isPaused: false,
+        isAborted: false
+      }
+    };
+
+    // Initialize on DOM ready
+    window.addEventListener("DOMContentLoaded", function () {
+      initNavigation();
+      initDropzone();
+      loadStaffContext();
+    });
+
+    /**
+     * Navigation Handling
+     */
+    function initNavigation() {
+      var navButtons = document.querySelectorAll(".nav-pill-btn");
+      navButtons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var targetView = btn.getAttribute("data-view");
+          if (targetView) switchView(targetView);
+        });
+      });
+    }
+
+    function switchView(viewName) {
+      document.querySelectorAll(".view-screen").forEach(function (el) {
+        el.classList.remove("active");
+      });
+      var targetScreen = document.getElementById("view-" + viewName);
+      if (targetScreen) targetScreen.classList.add("active");
+
+      document.querySelectorAll(".nav-pill-btn").forEach(function (b) {
+        if (b.getAttribute("data-view") === viewName) {
+          b.classList.add("active");
+        } else {
+          b.classList.remove("active");
+        }
+      });
+
+      if (viewName === "activity" && state.staff && state.staff.isAdmin) {
+        loadGlobalActivityLog();
+      }
+    }
+
+    /**
+     * Staff Context Verification
+     */
+    function loadStaffContext() {
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(onContextSuccess)
+          .withFailureHandler(onContextFailure)
+          .getStaffContext();
+      } else {
+        // Dev / Local Mock for offline UI testing
+        setTimeout(function () {
+          onContextSuccess({
+            callerEmail: "recruiter@gmail.com",
+            displayName: "Sarah Jenkins",
+            isAdmin: true,
+            remainingQuota: 85,
+            windowDays: 30,
+            agencyName: "Apex Talent Partners",
+            agencyPostalAddress: "100 Montgomery St, Suite 1500, San Francisco, CA 94104"
+          });
+        }, 600);
+      }
+    }
+
+    function onContextSuccess(ctx) {
+      state.staff = ctx;
+
+      // Update Header
+      document.getElementById("headerAgencyName").textContent = ctx.agencyName || "Apex Outreach";
+      document.getElementById("userNameLabel").textContent = ctx.displayName || ctx.callerEmail;
+      document.getElementById("userAvatar").textContent = (ctx.displayName || ctx.callerEmail).charAt(0).toUpperCase();
+
+      updateQuotaDisplay(ctx.remainingQuota);
+
+      if (ctx.isAdmin) {
+        document.getElementById("adminBadge").style.display = "inline-block";
+        document.getElementById("navSuppressionBtn").style.display = "inline-flex";
+        document.getElementById("navActivityBtn").style.display = "inline-flex";
+      }
+
+      document.getElementById("mainNavPill").style.display = "inline-flex";
+      document.getElementById("userHeaderSection").style.display = "flex";
+
+      // Set greeting
+      var hour = new Date().getHours();
+      var greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+      document.getElementById("greetingTitle").textContent = greeting + ", " + (ctx.displayName ? ctx.displayName.split(" ")[0] : "there");
+
+      switchView("compose");
+    }
+
+    function onContextFailure(err) {
+      document.getElementById("view-loading").classList.remove("active");
+      document.getElementById("view-denied").classList.add("active");
+      var msg = err ? (err.message || err.toString()) : "Authorization rejected.";
+      document.getElementById("deniedErrorMessage").textContent = msg;
+    }
+
+    function updateQuotaDisplay(quota) {
+      var num = typeof quota === "number" ? quota : 0;
+      document.getElementById("quotaNumber").textContent = num;
+      document.getElementById("cardQuotaRemaining").textContent = num;
+
+      var dot = document.getElementById("quotaDot");
+      dot.className = "quota-dot";
+      if (num <= 10) {
+        dot.classList.add("danger");
+      } else if (num <= 30) {
+        dot.classList.add("warning");
+      }
+    }
+
+    /**
+     * Tag Insertion Helper
+     */
+    function insertToken(elementId, token) {
+      var el = document.getElementById(elementId);
+      if (!el) return;
+      var start = el.selectionStart || el.value.length;
+      var end = el.selectionEnd || el.value.length;
+      var val = el.value;
+      el.value = val.substring(0, start) + token + val.substring(end);
+      el.focus();
+      el.setSelectionRange(start + token.length, start + token.length);
+    }
+
+    /**
+     * CSV and Contact Parsing
+     */
+    function initDropzone() {
+      var dz = document.getElementById("csvDropzone");
+      ["dragenter", "dragover"].forEach(function (evt) {
+        dz.addEventListener(evt, function (e) {
+          e.preventDefault();
+          dz.classList.add("dragover");
+        });
+      });
+      ["dragleave", "drop"].forEach(function (evt) {
+        dz.addEventListener(evt, function (e) {
+          e.preventDefault();
+          dz.classList.remove("dragover");
+        });
+      });
+      dz.addEventListener("drop", function (e) {
+        var files = e.dataTransfer.files;
+        if (files && files[0]) parseCsvFile(files[0]);
+      });
+    }
+
+    function handleFileSelect(e) {
+      var files = e.target.files;
+      if (files && files[0]) parseCsvFile(files[0]);
+    }
+
+    function parseCsvFile(file) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var text = e.target.result;
+        var lines = text.split(/\r?\n/);
+        var parsed = [];
+        var headers = [];
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (!line) continue;
+          var parts = parseCsvLine(line);
+
+          if (i === 0 && (parts[0].toLowerCase().includes("email") || parts.length > 1)) {
+            headers = parts.map(function (h) { return h.toLowerCase().trim(); });
+            continue;
+          }
+
+          var emailIdx = headers.indexOf("email");
+          var nameIdx = headers.indexOf("name");
+          var compIdx = headers.indexOf("company");
+
+          var email = emailIdx !== -1 && parts[emailIdx] ? parts[emailIdx] : parts[0];
+          var name = nameIdx !== -1 && parts[nameIdx] ? parts[nameIdx] : (parts[1] || "");
+          var comp = compIdx !== -1 && parts[compIdx] ? parts[compIdx] : (parts[2] || "");
+
+          if (email && email.includes("@")) {
+            parsed.push({ email: email.trim(), name: name.trim(), company: comp.trim() });
+          }
+        }
+
+        // Fill into paste textarea for visibility
+        var linesOut = parsed.map(function (p) {
+          return p.email + ", " + (p.name || "") + ", " + (p.company || "");
+        });
+        document.getElementById("rawContactsPaste").value = linesOut.join("\n");
+        updateParsedCount();
+        showToast("Imported " + parsed.length + " contacts from CSV");
+      };
+      reader.readAsText(file);
+    }
+
+    function parseCsvLine(str) {
+      var result = [];
+      var cur = "";
+      var inQuotes = false;
+      for (var i = 0; i < str.length; i++) {
+        var c = str[i];
+        if (c === '"') {
+          inQuotes = !inQuotes;
+        } else if (c === ',' && !inQuotes) {
+          result.push(cur.trim());
+          cur = "";
+        } else {
+          cur += c;
+        }
+      }
+      result.push(cur.trim());
+      return result;
+    }
+
+    function updateParsedCount() {
+      var raw = document.getElementById("rawContactsPaste").value.trim();
+      var count = 0;
+      if (raw) {
+        var lines = raw.split("\n");
+        for (var i = 0; i < lines.length; i++) {
+          if (lines[i].includes("@")) count++;
+        }
+      }
+      document.getElementById("parsedContactsBadge").textContent = count;
+      document.getElementById("btnPreviewBatch").disabled = count === 0;
+    }
+
+    function getContactsFromPaste() {
+      var raw = document.getElementById("rawContactsPaste").value.trim();
+      var contacts = [];
+      if (!raw) return contacts;
+
+      var lines = raw.split("\n");
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        if (!line) continue;
+        var parts = line.split(",").map(function (s) { return s.trim(); });
+        var email = parts[0];
+        var name = parts[1] || "";
+        var company = parts[2] || "";
+        if (email && email.includes("@")) {
+          contacts.push({ email: email, name: name, company: company });
+        }
+      }
+      return contacts;
+    }
+
+    /**
+     * Batch Cleaning Preview
+     */
+    function runBatchPreview() {
+      var campaignName = document.getElementById("campaignName").value.trim() || "Vendor Outreach";
+      var subject = document.getElementById("emailSubject").value.trim();
+      var body = document.getElementById("emailBody").value.trim();
+      var contacts = getContactsFromPaste();
+
+      if (!subject) {
+        showToast("Please enter an email subject.");
+        return;
+      }
+      if (contacts.length === 0) {
+        showToast("Please import at least one contact email.");
+        return;
+      }
+
+      var campaignId = "camp_" + Math.random().toString(36).substring(2, 10);
+      state.campaign.id = campaignId;
+      state.campaign.name = campaignName;
+      state.campaign.subject = subject;
+      state.campaign.body = body;
+      state.campaign.contacts = contacts;
+
+      var btn = document.getElementById("btnPreviewBatch");
+      btn.disabled = true;
+      btn.textContent = "Validating...";
+
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(onPreviewSuccess)
+          .withFailureHandler(function (err) {
+            btn.disabled = false;
+            btn.textContent = "Validate & Preview →";
+            showToast("Preview error: " + (err.message || err.toString()));
+          })
+          .previewContacts(campaignId, campaignName, subject, body, contacts);
+      } else {
+        // Offline Mock
+        setTimeout(function () {
+          onPreviewSuccess({
+            total: contacts.length,
+            valid: contacts.length,
+            invalid: 0,
+            duplicate: 0,
+            suppressed: 1,
+            recently_contacted: 0,
+            sendable: Math.max(0, contacts.length - 1)
+          });
+        }, 700);
+      }
+    }
+
+    function onPreviewSuccess(data) {
+      document.getElementById("btnPreviewBatch").disabled = false;
+      document.getElementById("btnPreviewBatch").textContent = "Validate & Preview →";
+
+      state.campaign.preview = data;
+
+      document.getElementById("prevTotalCount").textContent = data.total;
+      document.getElementById("prevSendableCount").textContent = data.sendable;
+      document.getElementById("prevSuppressedCount").textContent = data.suppressed;
+      document.getElementById("prevRecentCount").textContent = data.recently_contacted;
+
+      // Populate preview table
+      var tbody = document.getElementById("previewTableBody");
+      tbody.innerHTML = "";
+
+      var contacts = state.campaign.contacts;
+      for (var i = 0; i < Math.min(contacts.length, 50); i++) {
+        var c = contacts[i];
+        var tr = document.createElement("tr");
+        tr.innerHTML = "<td>" + escapeHtmlClient(c.email) + "</td>" +
+          "<td>" + escapeHtmlClient(c.name || "—") + "</td>" +
+          "<td>" + escapeHtmlClient(c.company || "—") + "</td>" +
+          '<td><span class="badge badge-sent">Valid</span></td>';
+        tbody.appendChild(tr);
+      }
+
+      document.getElementById("navPreviewBtn").disabled = false;
+      document.getElementById("btnStartDispatch").disabled = data.sendable === 0;
+
+      switchView("preview");
+      showToast("Cleaning preview completed: " + data.sendable + " sendable");
+    }
+
+    /**
+     * Sequential Dispatch Loop
+     */
+    function confirmAndStartDispatch() {
+      if (!state.campaign.preview || state.campaign.preview.sendable === 0) {
+        showToast("No sendable contacts available.");
+        return;
+      }
+
+      state.campaign.queue = state.campaign.contacts.slice();
+      state.campaign.currentIndex = 0;
+      state.campaign.isPaused = false;
+      state.campaign.isAborted = false;
+
+      document.getElementById("dispatchCampaignTitle").textContent = state.campaign.name;
+      document.getElementById("dispatchProgressPercent").textContent = "0%";
+      document.getElementById("dispatchProgressBar").style.width = "0%";
+      document.getElementById("dispatchSentCount").textContent = "0";
+      document.getElementById("dispatchFailedCount").textContent = "0";
+      document.getElementById("dispatchRemainingQueue").textContent = state.campaign.queue.length;
+      document.getElementById("dispatchFeedBody").innerHTML = "";
+
+      document.getElementById("navDispatchBtn").disabled = false;
+      switchView("dispatch");
+
+      // Notify backend of campaign start
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run.setCampaignState(state.campaign.id, "started", { batch_size: state.campaign.queue.length });
+      }
+
+      dispatchNext();
+    }
+
+    function dispatchNext() {
+      if (state.campaign.isAborted) {
+        updateDispatchStatus("Aborted", "failed");
+        return;
+      }
+
+      if (state.campaign.isPaused) {
+        updateDispatchStatus("Paused", "pending");
+        return;
+      }
+
+      if (state.campaign.currentIndex >= state.campaign.queue.length) {
+        updateDispatchStatus("Completed", "sent");
+        showToast("Campaign dispatch completed successfully!");
+        if (typeof google !== "undefined" && google.script && google.script.run) {
+          google.script.run.setCampaignState(state.campaign.id, "completed", {});
+        }
+        return;
+      }
+
+      // Check current quota
+      if (state.staff && state.staff.remainingQuota <= 0) {
+        updateDispatchStatus("Quota Reached", "failed");
+        showToast("Daily quota limit reached (100/100). Resuming tomorrow.");
+        return;
+      }
+
+      var recipient = state.campaign.queue[state.campaign.currentIndex];
+      updateDispatchStatus("Sending...", "active");
+
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function (result) {
+            handleSendResult(recipient, result);
+          })
+          .withFailureHandler(function (err) {
+            handleSendResult(recipient, { ok: false, status: "failed", errorMessage: err.message || err.toString() });
+          })
+          .sendOneEmail(state.campaign.id, recipient, state.campaign.subject, state.campaign.body);
+      } else {
+        // Dev Simulation
+        setTimeout(function () {
+          var mockQuota = Math.max(0, state.staff.remainingQuota - 1);
+          handleSendResult(recipient, { ok: true, status: "sent", remainingQuota: mockQuota });
+        }, 800);
+      }
+    }
+
+    function handleSendResult(recipient, result) {
+      state.campaign.currentIndex++;
+
+      var sentCount = parseInt(document.getElementById("dispatchSentCount").textContent, 10);
+      var failedCount = parseInt(document.getElementById("dispatchFailedCount").textContent, 10);
+
+      if (result.ok) {
+        sentCount++;
+        document.getElementById("dispatchSentCount").textContent = sentCount;
+      } else {
+        failedCount++;
+        document.getElementById("dispatchFailedCount").textContent = failedCount;
+      }
+
+      var total = state.campaign.queue.length;
+      var remaining = total - state.campaign.currentIndex;
+      var pct = Math.round((state.campaign.currentIndex / total) * 100);
+
+      document.getElementById("dispatchRemainingQueue").textContent = remaining;
+      document.getElementById("dispatchProgressPercent").textContent = pct + "%";
+      document.getElementById("dispatchProgressBar").style.width = pct + "%";
+
+      if (typeof result.remainingQuota === "number") {
+        state.staff.remainingQuota = result.remainingQuota;
+        updateQuotaDisplay(result.remainingQuota);
+      }
+
+      // Append to live feed
+      appendFeedRow(recipient.email, result.status || (result.ok ? "sent" : "failed"), result.errorMessage || "Delivered");
+
+      // Rate throttle delay: 1.5s
+      setTimeout(dispatchNext, 1500);
+    }
+
+    function appendFeedRow(email, status, message) {
+      var tbody = document.getElementById("dispatchFeedBody");
+      var tr = document.createElement("tr");
+
+      var now = new Date().toLocaleTimeString();
+      var badgeClass = status === "sent" ? "badge-sent" : status === "pending" ? "badge-pending" : "badge-failed";
+
+      tr.innerHTML = '<td style="font-size:11px; color:#878687;">' + now + '</td>' +
+        '<td><strong>' + escapeHtmlClient(email) + '</strong></td>' +
+        '<td><span class="badge ' + badgeClass + '">' + status + '</span></td>' +
+        '<td style="font-size:12px; color:var(--color-text-muted);">' + escapeHtmlClient(message) + '</td>';
+
+      tbody.insertBefore(tr, tbody.firstChild);
+    }
+
+    function updateDispatchStatus(label, type) {
+      var badge = document.getElementById("dispatchStatusBadge");
+      badge.textContent = label;
+      badge.className = "badge";
+      if (type === "sent") badge.classList.add("badge-sent");
+      else if (type === "active") badge.classList.add("badge-active");
+      else if (type === "pending") badge.classList.add("badge-pending");
+      else badge.classList.add("badge-failed");
+    }
+
+    function togglePauseResume() {
+      var btn = document.getElementById("btnPauseResume");
+      if (state.campaign.isPaused) {
+        state.campaign.isPaused = false;
+        btn.textContent = "Pause";
+        showToast("Campaign resumed.");
+        if (typeof google !== "undefined" && google.script && google.script.run) {
+          google.script.run.setCampaignState(state.campaign.id, "resumed", {});
+        }
+        dispatchNext();
+      } else {
+        state.campaign.isPaused = true;
+        btn.textContent = "Resume";
+        showToast("Campaign paused.");
+        if (typeof google !== "undefined" && google.script && google.script.run) {
+          google.script.run.setCampaignState(state.campaign.id, "paused", {});
+        }
+      }
+    }
+
+    function abortDispatch() {
+      if (confirm("Are you sure you want to abort this campaign dispatch?")) {
+        state.campaign.isAborted = true;
+        showToast("Campaign aborted.");
+      }
+    }
+
+    /**
+     * Admin: Suppression & Lift Modal
+     */
+    function openLiftModal(targetEmail) {
+      document.getElementById("liftTargetEmail").value = targetEmail || "";
+      document.getElementById("liftReason").value = "";
+      document.getElementById("liftModal").classList.add("active");
+    }
+
+    function closeLiftModal() {
+      document.getElementById("liftModal").classList.remove("active");
+    }
+
+    function submitLiftSuppression() {
+      var email = document.getElementById("liftTargetEmail").value.trim();
+      var reason = document.getElementById("liftReason").value.trim();
+
+      if (!email || !email.includes("@")) {
+        showToast("Please enter a valid email address.");
+        return;
+      }
+      if (reason.length < 10) {
+        showToast("Justification must be at least 10 characters long.");
+        return;
+      }
+
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function () {
+            closeLiftModal();
+            showToast("Suppression lifted for " + email);
+          })
+          .withFailureHandler(function (err) {
+            showToast("Error lifting suppression: " + (err.message || err.toString()));
+          })
+          .adminUnsuppress(email, reason);
+      } else {
+        closeLiftModal();
+        showToast("Mock: Suppression lifted for " + email);
+      }
+    }
+
+    /**
+     * Admin: Global Activity Log
+     */
+    function loadGlobalActivityLog() {
+      var tbody = document.getElementById("activityTableBody");
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;"><div class="spinner" style="margin:8px auto;"></div></td></tr>';
+
+      if (typeof google !== "undefined" && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function (data) {
+            renderActivityTable(data.rows || []);
+          })
+          .withFailureHandler(function (err) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#C62828;">Error loading activity logs.</td></tr>';
+          })
+          .getGlobalActivityLog(100, 0, "", "");
+      } else {
+        // Dev Mock
+        setTimeout(function () {
+          renderActivityTable([
+            { timestamp: new Date().toISOString(), actor_email: "recruiter@gmail.com", actor_role: "staff", action_category: "session", action: "session_start", target_entity_id: "recruiter@gmail.com", status: "success" },
+            { timestamp: new Date().toISOString(), actor_email: "recruiter@gmail.com", actor_role: "staff", action_category: "campaign", action: "contacts_previewed", target_entity_id: "camp_a1b2", status: "success" }
+          ]);
+        }, 500);
+      }
+    }
+
+    function renderActivityTable(rows) {
+      var tbody = document.getElementById("activityTableBody");
+      tbody.innerHTML = "";
+      if (!rows || rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--color-text-muted);">No activity entries recorded yet.</td></tr>';
+        return;
+      }
+
+      for (var i = 0; i < rows.length; i++) {
+        var r = rows[i];
+        var tr = document.createElement("tr");
+        var timeStr = r.timestamp ? new Date(r.timestamp).toLocaleString() : "—";
+        var statusBadge = r.status === "success" ? "badge-sent" : r.status === "blocked" ? "badge-failed" : "badge-pending";
+
+        tr.innerHTML = '<td style="font-size:11px; color:#878687;" class="tabular-nums">' + timeStr + '</td>' +
+          '<td><strong>' + escapeHtmlClient(r.actor_email) + '</strong></td>' +
+          '<td><span class="badge">' + escapeHtmlClient(r.actor_role) + '</span></td>' +
+          '<td>' + escapeHtmlClient(r.action_category) + '</td>' +
+          '<td><code>' + escapeHtmlClient(r.action) + '</code></td>' +
+          '<td>' + escapeHtmlClient(r.target_entity_id || "—") + '</td>' +
+          '<td><span class="badge ' + statusBadge + '">' + escapeHtmlClient(r.status) + '</span></td>';
+
+        tbody.appendChild(tr);
+      }
+    }
+
+    /**
+     * Toast Utility
+     */
+    function showToast(msg) {
+      var container = document.getElementById("toastContainer");
+      var toast = document.createElement("div");
+      toast.className = "toast";
+      toast.textContent = msg;
+      container.appendChild(toast);
+      setTimeout(function () {
+        toast.style.opacity = "0";
+        setTimeout(function () {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 300);
+      }, 3500);
+    }
+
+    function escapeHtmlClient(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
