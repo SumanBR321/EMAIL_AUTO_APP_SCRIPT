@@ -61,7 +61,7 @@ function doGet(e) {
 
     return template.evaluate()
       .setTitle(template.pageTitle)
-      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DENY);
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DEFAULT);
   }
 
   // Health check response
@@ -128,7 +128,7 @@ function doPost(e) {
 
     return template.evaluate()
       .setTitle(template.pageTitle)
-      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DENY);
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DEFAULT);
   }
 
   // Authenticated JSON API Endpoints

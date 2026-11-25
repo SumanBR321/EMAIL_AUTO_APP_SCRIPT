@@ -10,7 +10,7 @@
 function doGet(e) {
   return HtmlService.createHtmlOutputFromFile("index")
     .setTitle("Vendor Outreach Portal")
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DENY);
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DEFAULT);
 }
 
 /**
