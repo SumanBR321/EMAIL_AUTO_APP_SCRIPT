@@ -44,7 +44,8 @@ var ApiClient = (function () {
         try {
           parsedResponse = JSON.parse(responseText);
         } catch (jsonErr) {
-          throw new Error("Control API returned non-JSON response (HTTP " + statusCode + "): " + responseText.substring(0, 150));
+          var cleanMsg = responseText.replace(/<style[\s\S]*?<\/style>/gi, "").replace(/<script[\s\S]*?<\/script>/gi, "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+          throw new Error("Control API returned non-JSON response (HTTP " + statusCode + "): " + cleanMsg.substring(0, 400));
         }
 
         // Retry on 429 Too Many Requests or 5xx server errors
