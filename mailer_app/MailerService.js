@@ -56,10 +56,13 @@ var MailerService = (function () {
       });
 
       if (!preResult.ok) {
+        var errCode = preResult.error || (preResult.data && preResult.data.error) || "blocked";
+        var errMsg = preResult.message || (preResult.data && preResult.data.message) || "Email reservation rejected by Control API.";
         return {
           ok: false,
-          status: preResult.error || "blocked",
-          message: preResult.message || "Email reservation rejected by Control API."
+          status: errCode,
+          message: errMsg,
+          errorMessage: errMsg
         };
       }
 

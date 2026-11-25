@@ -1516,7 +1516,7 @@
       }
 
       // Append to live feed
-      appendFeedRow(recipient.email, result.status || (result.ok ? "sent" : "failed"), result.errorMessage || "Delivered");
+      appendFeedRow(recipient.email, result.status || (result.ok ? "sent" : "failed"), result.errorMessage || result.message || (result.ok ? "Delivered" : "Blocked / Failed"));
 
       // Rate throttle delay: 1.5s
       setTimeout(dispatchNext, 1500);

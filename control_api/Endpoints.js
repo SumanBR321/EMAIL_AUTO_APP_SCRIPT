@@ -167,9 +167,10 @@ var Endpoints = (function () {
      */
     presend: function (callerEmail, staffRecord, payload) {
       var lock = LockService.getScriptLock();
+      var lockAcquired = false;
       try {
         // Wait up to 10 seconds for script lock to serialize reservations
-        var lockAcquired = lock.waitLock(10000);
+        lockAcquired = lock.tryLock(10000);
         if (!lockAcquired) {
           return {
             ok: false,
@@ -284,7 +285,9 @@ var Endpoints = (function () {
           }
         };
       } finally {
-        lock.releaseLock();
+        if (lockAcquired) {
+          lock.releaseLock();
+        }
       }
     },
 
@@ -293,8 +296,16 @@ var Endpoints = (function () {
      */
     log: function (callerEmail, staffRecord, payload) {
       var lock = LockService.getScriptLock();
+      var lockAcquired = false;
       try {
-        lock.waitLock(10000);
+        lockAcquired = lock.tryLock(10000);
+        if (!lockAcquired) {
+          return {
+            ok: false,
+            error: "lock_timeout",
+            message: "System is busy updating delivery logs. Please retry."
+          };
+        }
 
         var logId = payload.log_id;
         var campaignId = payload.campaign_id;
@@ -346,7 +357,9 @@ var Endpoints = (function () {
           }
         };
       } finally {
-        lock.releaseLock();
+        if (lockAcquired) {
+          lock.releaseLock();
+        }
       }
     },
 
