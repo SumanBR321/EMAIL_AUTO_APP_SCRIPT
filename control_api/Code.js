@@ -61,6 +61,7 @@ function doGet(e) {
 
     return template.evaluate()
       .setTitle(template.pageTitle)
+      .addMetaTag("viewport", "width=device-width, initial-scale=1.0")
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DEFAULT);
   }
 
@@ -128,6 +129,7 @@ function doPost(e) {
 
     return template.evaluate()
       .setTitle(template.pageTitle)
+      .addMetaTag("viewport", "width=device-width, initial-scale=1.0")
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DEFAULT);
   }
 
