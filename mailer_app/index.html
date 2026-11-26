@@ -163,6 +163,18 @@
       color: var(--color-text-inverse);
     }
 
+    /* Administrator Nav Adjustments (5 tabs: keeps labels single-line & pill curves concentric) */
+    .nav-pill-container.admin-nav {
+      flex-shrink: 0;
+      padding: 4px;
+    }
+
+    .nav-pill-container.admin-nav .nav-pill-btn {
+      white-space: nowrap;
+      padding: 8px 14px;
+      line-height: 1.2;
+    }
+
     /* Right Header User Controls */
     .user-section {
       display: flex;
@@ -1150,6 +1162,7 @@
         document.getElementById("adminBadge").style.display = "inline-block";
         document.getElementById("navSuppressionBtn").style.display = "inline-flex";
         document.getElementById("navActivityBtn").style.display = "inline-flex";
+        document.getElementById("mainNavPill").classList.add("admin-nav");
       }
 
       document.getElementById("mainNavPill").style.display = "inline-flex";
