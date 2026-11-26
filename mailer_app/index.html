@@ -249,6 +249,44 @@
       border-radius: var(--radius-pill);
     }
 
+    /* Administrator User & Quota Pills (single-line text & concentric curvature) */
+    .user-section.admin-user {
+      flex-shrink: 0;
+      gap: 10px;
+    }
+
+    .user-section.admin-user .quota-pill {
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 8px 14px;
+      line-height: 1.2;
+    }
+
+    .user-section.admin-user .quota-dot {
+      flex-shrink: 0;
+    }
+
+    .user-section.admin-user .user-profile-badge {
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 4px 12px 4px 4px;
+      gap: 8px;
+    }
+
+    .user-section.admin-user .avatar-circle {
+      flex-shrink: 0;
+    }
+
+    .user-section.admin-user .user-name {
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+
+    .user-section.admin-user .admin-pill {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
     /* App Main Canvas */
     .app-main {
       flex: 1;
@@ -1163,6 +1201,7 @@
         document.getElementById("navSuppressionBtn").style.display = "inline-flex";
         document.getElementById("navActivityBtn").style.display = "inline-flex";
         document.getElementById("mainNavPill").classList.add("admin-nav");
+        document.getElementById("userHeaderSection").classList.add("admin-user");
       }
 
       document.getElementById("mainNavPill").style.display = "inline-flex";
