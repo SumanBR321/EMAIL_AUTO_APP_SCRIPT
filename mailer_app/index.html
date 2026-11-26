@@ -97,11 +97,13 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      flex-shrink: 0;
     }
 
     .brand-icon {
       width: 40px;
       height: 40px;
+      flex-shrink: 0;
       background: var(--color-surface-dark);
       border-radius: var(--radius-inner);
       display: flex;
@@ -112,17 +114,21 @@
 
     .brand-text h1 {
       font-family: var(--font-display);
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 600;
       letter-spacing: -0.02em;
+      line-height: 1.25;
       color: var(--color-text-primary);
+      white-space: nowrap;
     }
 
     .brand-text p {
       font-size: 11px;
+      line-height: 1.25;
       color: var(--color-text-muted);
       text-transform: uppercase;
       letter-spacing: 0.04em;
+      white-space: nowrap;
     }
 
     /* Centered Floating Nav Pill */
@@ -705,14 +711,14 @@
        ======================================================================== -->
   <header class="app-header">
     <div class="brand-section">
-      <div class="brand-icon">
+      <div class="brand-icon" aria-hidden="true">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-          <polyline points="22,6 12,13 2,6"></polyline>
+          <path d="M22 2L11 13"></path>
+          <path d="M22 2L15 22l-4-9-9-4 20-7z"></path>
         </svg>
       </div>
       <div class="brand-text">
-        <h1 id="headerAgencyName">Apex Outreach</h1>
+        <h1 id="headerAgencyName">ClearDispatch</h1>
         <p>Vendor Email Portal</p>
       </div>
     </div>
